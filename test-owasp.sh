@@ -22,4 +22,3 @@ zap-cli shutdown
 
 python ./s3upload.py
 
-exit 0
