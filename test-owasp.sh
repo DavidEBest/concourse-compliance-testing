@@ -1,13 +1,13 @@
 #!/bin/bash
 
 COUNTER=0
-COUNT=$(cat targets.json | jq '.targets[] .url' | wc -l)
+COUNT=$(cat scripts/targets.json | jq '.targets[] .url' | wc -l)
 
 zap-cli start --start-options '-config api.disablekey=true'
 
 while [ $COUNTER -lt $COUNT ]; do
-  NAME=$(cat targets.json | jq ".targets[${COUNTER}] .name")
-  TARGET=$(cat targets.json | jq ".targets[${COUNTER}] .url")
+  NAME=$(cat scripts/targets.json | jq ".targets[${COUNTER}] .name")
+  TARGET=$(cat scripts/targets.json | jq ".targets[${COUNTER}] .url")
 
   echo Scanning $NAME: $TARGET
   zap-cli open-url ${TARGET}
