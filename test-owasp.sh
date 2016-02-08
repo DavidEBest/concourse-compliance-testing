@@ -1,5 +1,7 @@
 #!/bin/bash
 
+echo HERE WE ARE
+cat scripts/targets.json | jq '.targets[] .url'
 COUNTER=0
 COUNT=$(cat scripts/targets.json | jq '.targets[] .url' | wc -l)
 
