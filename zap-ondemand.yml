@@ -21,7 +21,7 @@ jobs:
     config:
       params:
         LIVE_TARGET: {{live-target}}
-  - put: zap-collector-json
-    params:
-      from: results
+        S3_ACCESS_KEY: {{aws-access-key}}
+        S3_SECRET_KEY: {{aws-secret-key}}
+        S3_BUCKET: {{aws-bucket}}
 

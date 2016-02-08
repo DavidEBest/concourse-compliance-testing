@@ -1,13 +1,25 @@
 #!/bin/bash
 
-#zap-cli start --start-options '-config api.disablekey=true'
-#zap-cli open-url $LIVE_TARGET
-#zap-cli spider $LIVE_TARGET
-#zap-cli active-scan -s all -r $LIVE_TARGET
-#zap-cli alerts -l Informational -f json > results/zap.json
-#zap-cli shutdown
+COUNTER=0
+COUNT=$(cat targets.json | jq '.targets[] .url' | wc -l)
 
-touch results/zap.json
-cp results/zap.json results.zap2.json
+zap-cli start --start-options '-config api.disablekey=true'
+
+while [ $COUNTER -lt $COUNT ]; do
+  NAME=$(cat targets.json | jq ".targets[${COUNTER}] .name")
+  TARGET=$(cat targets.json | jq ".targets[${COUNTER}] .url")
+
+  echo Scanning $NAME: $TARGET
+  zap-cli open-url ${TARGET}
+  zap-cli spider ${TARGET}
+  zap-cli active-scan -s all -r ${TARGET}
+  zap-cli alerts -l Informational -f json > results/${NAME}.json
+
+  let COUNTER+=1
+done
+
+zap-cli shutdown
+
+python ./s3upload.py
 
 exit 0
