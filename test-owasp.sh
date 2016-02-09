@@ -1,5 +1,6 @@
 #!/bin/bash
 
+apt-get install jq
 pip install tinys3
 
 echo HERE WE ARE
@@ -24,5 +25,5 @@ done
 
 zap-cli shutdown
 
-python ./s3upload.py
+python scripts/s3upload.py
 
