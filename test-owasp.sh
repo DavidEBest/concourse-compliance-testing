@@ -3,8 +3,6 @@
 apt-get install jq
 pip install tinys3
 
-echo HERE WE ARE
-cat scripts/targets.json | jq '.targets[] .url'
 COUNTER=0
 COUNT=$(cat scripts/targets.json | jq '.targets[] .url' | wc -l)
 
@@ -15,7 +13,6 @@ while [ $COUNTER -lt $COUNT ]; do
   TARGET=$(cat scripts/targets.json | jq ".targets[${COUNTER}] .url" -r)
 
   echo Scanning $NAME: $TARGET
-  echo zap-cli open-url $TARGET
   zap-cli open-url $TARGET
   zap-cli spider $TARGET
   zap-cli active-scan -s all -r $TARGET
@@ -26,5 +23,6 @@ done
 
 zap-cli shutdown
 
+echo Uploading files...
 python scripts/s3upload.py
 

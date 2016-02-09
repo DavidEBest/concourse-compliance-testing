@@ -2,15 +2,8 @@ resources:
 - name: scripts 
   type: git
   source:
-    uri: https://github.com/DavidEBest/concourse-compliance-testing.git
-    branch: multi-file
-- name: zap-collector-json
-  type: s3
-  source:
-    bucket: {{aws-bucket}} 
-    versioned_file: {{aws-zap-json}}
-    access_key_id: {{aws-access-key}}
-    secret_access_key: {{aws-secret-key}}
+    uri: https://github.com/18F/concourse-compliance-testing.git
+    branch: {{script-branch}} 
 
 jobs:
 - name: zap-scan 
