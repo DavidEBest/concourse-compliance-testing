@@ -11,10 +11,11 @@ COUNT=$(cat scripts/targets.json | jq '.targets[] .url' | wc -l)
 zap-cli start --start-options '-config api.disablekey=true'
 
 while [ $COUNTER -lt $COUNT ]; do
-  NAME=$(cat scripts/targets.json | jq ".targets[${COUNTER}] .name")
-  TARGET=$(cat scripts/targets.json | jq ".targets[${COUNTER}] .url")
+  NAME=$(cat scripts/targets.json | jq ".targets[${COUNTER}] .name" -r)
+  TARGET=$(cat scripts/targets.json | jq ".targets[${COUNTER}] .url" -r)
 
   echo Scanning $NAME: $TARGET
+  echo zap-cli open-url $TARGET
   zap-cli open-url $TARGET
   zap-cli spider $TARGET
   zap-cli active-scan -s all -r $TARGET
