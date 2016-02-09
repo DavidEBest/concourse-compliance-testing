@@ -1,5 +1,7 @@
 #!/bin/bash
 
+pip install tinys3
+
 echo HERE WE ARE
 cat scripts/targets.json | jq '.targets[] .url'
 COUNTER=0
