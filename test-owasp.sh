@@ -15,9 +15,9 @@ while [ $COUNTER -lt $COUNT ]; do
   TARGET=$(cat scripts/targets.json | jq ".targets[${COUNTER}] .url")
 
   echo Scanning $NAME: $TARGET
-  zap-cli open-url ${TARGET}
-  zap-cli spider ${TARGET}
-  zap-cli active-scan -s all -r ${TARGET}
+  zap-cli open-url $TARGET
+  zap-cli spider $TARGET
+  zap-cli active-scan -s all -r $TARGET
   zap-cli alerts -l Informational -f json > results/${NAME}.json
 
   let COUNTER+=1
