@@ -1,0 +1,219 @@
+[
+  {
+    "name": "openopps",
+    "slack_channel": "openopps-platform",
+    "links": [
+      {
+        "url": "https://openopps-test.18f.gov/"
+      }
+    ]
+  },
+  {
+    "name": "micropurchase",
+    "slack_channel": "micropurchase-status",
+    "links": [
+      {
+        "url": "https://micropurchase.18f.gov"
+      }
+    ]
+  },
+  {
+    "name": "api-data-gov",
+    "slack_channel": "wg-api",
+    "links": [
+      {
+        "url": "https://api.data.gov/"
+      }
+    ]
+  },
+  {
+    "name": "dap",
+    "slack_channel": "dap",
+    "links": [
+      {
+        "url": "https://analytics.usa.gov/"
+      }
+    ]
+  },
+  {
+    "name": "betafec",
+    "slack_channel": "fec-dev",
+    "links": [
+      {
+        "url": "https://beta.fec.gov/"
+      }
+    ]
+  },
+  {
+    "name": "pulse",
+    "slack_channel": "pulse",
+    "links": [
+      {
+        "url": "https://pulse.cio.gov/"
+      }
+    ]
+  },
+  {
+    "name": "confidential-survey",
+    "links": [
+      {
+        "url": "https://survey.apps.cloud.gov/"
+      }
+    ]
+  },
+  {
+    "name": "c2",
+    "links": [
+      {
+        "url": "https://cap.18f.gov/"
+      }
+    ]
+  },
+  {
+    "name": "atf-eregs",
+    "links": [
+      {
+        "url": "https://atf-eregs-demo.apps.cloud.gov/"
+      }
+    ]
+  },
+  {
+    "name": "federalist",
+    "slack_channel": "federalist",
+    "links": [
+      {
+        "url": "https://federalist.18f.gov/"
+      }
+    ]
+  },
+  {
+    "name": "compliance-toolkit",
+    "slack_channel": "cloud-gov-highbar",
+    "links": [
+      {
+        "url": "https://compliance-viewer.18f.gov/",
+        "text": "Compliance Viewer"
+      }
+    ]
+  },
+
+  {
+    "name": "cg-api",
+    "slack_channel": "cloud-gov-atlas",
+    "links": [
+      {
+        "url": "https://api.fr.cloud.gov/",
+        "text": "cloud.gov - api"
+      }
+    ]
+  },
+  {
+    "name": "cg-community",
+    "slack_channel": "cloud-gov-liberator",
+    "links": [
+      {
+        "url": "https://community.fr.cloud.gov/",
+        "text": "cloud.gov - community"
+      }
+    ]
+  },
+  {
+    "name": "cg-concourse",
+    "slack_channel": "cloud-gov-atlas",
+    "links": [
+      {
+        "url": "https://ci.fr.cloud.gov/",
+        "text": "cloud.gov - concourse"
+      }
+    ]
+  },
+  {
+    "name": "cg-deck",
+    "slack_channel": "cloud-gov-liberator",
+    "links": [
+      {
+        "url": "https://console.fr.cloud.gov/",
+        "text": "cloud.gov - deck"
+      }
+    ]
+  },
+  {
+    "name": "cg-docs",
+    "slack_channel": "cloud-gov-liberator",
+    "links": [
+      {
+        "url": "https://docs.fr.cloud.gov/",
+        "text": "cloud.gov - docs"
+      }
+    ]
+  },
+  {
+    "name": "cg-landing",
+    "slack_channel": "cloud-gov-liberator",
+    "links": [
+      {
+        "url": "https://landing.fr.cloud.gov/",
+        "text": "cloud.gov - landing"
+      }
+    ]
+  },
+  {
+    "name": "cg-logs",
+    "slack_channel": "cloud-gov-atlas",
+    "links": [
+      {
+        "url": "https://logs.fr.cloud.gov/",
+        "text": "cloud.gov - logs"
+      }
+    ]
+  },
+  {
+    "name": "cg-metrics",
+    "slack_channel": "cloud-gov-atlas",
+    "links": [
+      {
+        "url": "https://metrics.fr.cloud.gov/",
+        "text": "cloud.gov - metrics"
+      }
+    ]
+  },
+  {
+    "name": "cg-uaa",
+    "slack_channel": "cloud-gov-atlas",
+    "links": [
+      {
+        "url": "https://login.fr.cloud.gov/",
+        "text": "cloud.gov - uaa/login"
+      }
+    ]
+  },
+
+  {
+    "name": "epa e-manifest",
+    "links": [
+      {
+        "url": "https://e-manifest.epa.gov/",
+        "text": "epa - e-manifest"
+      }
+    ]
+  },
+  {
+    "name": "college scorecard",
+    "links": [
+      {
+        "url": "https://collegescorecard.ed.gov/",
+        "text": "ed - college scorecard"
+      }
+    ]
+  },
+  {
+    "name": "calc",
+    "slack_channel": "calc-data-capture",
+    "links": [
+      {
+        "url": "https://calc-dev.apps.cloud.gov/",
+        "text": "CALC (staging)"
+      }
+    ]
+  }
+]

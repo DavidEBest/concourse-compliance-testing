@@ -13,4 +13,9 @@ credentials.yml
 credentials.18F.yml
 
 node_modules/
+out/
 tmp/
+
+.DS_Store
+.gem
+.env

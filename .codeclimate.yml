@@ -1,0 +1,24 @@
+---
+engines:
+  duplication:
+    enabled: true
+    exclude_paths:
+    - "**/test/**"
+    config:
+      languages:
+      - ruby
+  fixme:
+    enabled: true
+  rubocop:
+    enabled: true
+  shellcheck:
+    enabled: true
+ratings:
+  paths:
+  - "**.rb"
+  - "**.sh"
+exclude_paths:
+- .vagrant/
+- config/
+- tmp/
+- Vagrantfile

@@ -1,0 +1,144 @@
+<%# note that this pipeline file is actually an ERB template, and thus shouldn't be used with `fly` directly -%>
+groups:
+- name: all-scheduled
+  jobs:
+<% projects.each do |project| -%>
+  - zap-scheduled-<%= project['name'] %>
+<% end -%>
+- name: all-ondemand
+  jobs:
+<% projects.each do |project| -%>
+  - zap-ondemand-<%= project['name'] %>
+<% end -%>
+<% projects.each do |project| -%>
+- name: <%= project['name'] %>
+  jobs:
+  - zap-scheduled-<%= project['name'] %>
+  - zap-ondemand-<%= project['name'] %>
+<% end -%>
+
+resource_types:
+- name: slack-notification
+  type: docker-image
+  source:
+    repository: cfcommunity/slack-notification-resource
+    tag: v1.0.0
+- name: http-resource
+  type: docker-image
+  source:
+    repository: 18fgsa/http-resource
+
+resources:
+- name: scripts
+  type: git
+  source:
+    uri: https://github.com/18F/concourse-compliance-testing.git
+    branch: {{script-branch}}
+- name: after-midnight
+  type: time
+  source:
+    interval: 1h
+    start: 12:00 AM -0500
+    stop: 12:30 AM -0500
+- name: slack
+  type: slack-notification
+  source:
+    url: {{slack-hook}}
+<% projects.each do |project| -%>
+- name: s3-result-<%= project['name'] %>
+  type: s3
+  source:
+    bucket: {{aws-bucket}}
+    versioned_file: results/<%= project['name'] %>.json
+    access_key_id: {{aws-access-key}}
+    secret_access_key: {{aws-secret-key}}
+- name: s3-summary-<%= project['name'] %>
+  type: s3
+  source:
+    bucket: {{aws-bucket}}
+    versioned_file: summaries/<%= project['name'] %>.json
+    access_key_id: {{aws-access-key}}
+    secret_access_key: {{aws-secret-key}}
+<% end -%>
+
+jobs:
+<% projects.each do |project| -%>
+<% %w(scheduled ondemand).each do |job| -%>
+- name: zap-<%= job %>-<%= project['name'] %>
+<% if job == 'scheduled' -%>
+  # use of the `time` Resource blocks manual triggering, so might as well remove the option
+  disable_manual_trigger: true
+<% end -%>
+  plan:
+<% if job == 'scheduled' -%>
+  - get: after-midnight
+    trigger: true
+<% end -%>
+  - get: scripts
+  - task: create-project-data
+    config:
+      platform: linux
+      image_resource:
+        type: docker-image
+        source:
+          repository: jemmyw/jq
+      inputs:
+      - name: scripts
+      outputs:
+      - name: project-data
+      run:
+        path: sh
+        args:
+        - -exc
+        - |
+          echo "Creating base project JSON file."
+          cat scripts/config/targets.json | jq '.[] | select(.name == "<%= project['name'] %>")' > project-data/project.json
+  - get: last-results
+    resource: s3-result-<%= project['name'] %>
+  - task: scan-zap
+    file: scripts/tasks/run-zap/task.yml
+  - put: s3-result-<%= project['name'] %>
+    params:
+      file: results/<%= project['name'] %>.json
+  - task: summarize-zap-results
+    file: scripts/tasks/summarize-zap-results/task.yml
+    on_success:
+      aggregate:
+<% if project['slack_channel'] -%>
+      - put: slack
+        params:
+          channel: '#<%= project['slack_channel'] %>'
+          icon_emoji: ':cop:'
+          text_file: zap-summary/summary.txt
+          username: {{slack-user}}
+      # post to the central Slack channel, just for diagnostics
+      - put: slack
+        params:
+          channel: {{slack-channel}}
+          icon_emoji: ':cop:'
+          text: |
+            :white_check_mark: $BUILD_JOB_NAME completed—posted in #<%= project['slack_channel'] %>.
+            <$ATC_EXTERNAL_URL/pipelines/$BUILD_PIPELINE_NAME/jobs/$BUILD_JOB_NAME/builds/$BUILD_NAME|View build details>
+          username: {{slack-user}}
+<% else -%>
+      - put: slack
+        params:
+          channel: {{slack-channel}}
+          icon_emoji: ':cop:'
+          text_file: zap-summary/summary.txt
+          username: {{slack-user}}
+<% end -%>
+      - put: s3-summary-<%= project['name'] %>
+        params:
+          file: zap-summary/summary.json
+    on_failure:
+      put: slack
+      params:
+        text: |
+          :x: FAILED to scan properties.
+          <$ATC_EXTERNAL_URL/pipelines/$BUILD_PIPELINE_NAME/jobs/$BUILD_JOB_NAME/builds/$BUILD_NAME|View build details>
+        channel: {{slack-channel}}
+        username: {{slack-user}}
+        icon_emoji: ':cop:'
+<% end -%>
+<% end -%>
